@@ -1,0 +1,9 @@
+A tela começa totalmente negra, com apenas um leve som de vento ao fundo.
+Gradualmente, pontos brilhantes começam a surgir, revelando um céu estrelado.
+Mas essas estrelas não são estáticas: elas se movem e dançam de forma caótica.
+[IMG] chapters/one/ato1/imagens/001_cenario_estrelado.webp
+Algumas colidem e explodem em luzes vibrantes, enquanto outras caem como cometas.
+A câmera então desce lentamente, revelando um vasto campo de batalha.
+[IMG] chapters/one/ato1/imagens/002_campo_de_batalha.webp
+No horizonte, um pôr do sol apocalíptico pinta o céu em tons de laranja e vermelho profundo.
+E assim, o ciclo do Destino continua. Mas desta vez, será diferente...
