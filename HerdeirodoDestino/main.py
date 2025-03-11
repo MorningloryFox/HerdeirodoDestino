@@ -1,7 +1,7 @@
 import time
 import tkinter as tk
 from PIL import Image, ImageTk
-from chapters.one.ato1 import ato1
+from breakout_game import BreakoutGame
 from screens import LoadGameScreen, CreditsScreen
 from game_state import GameState
 from settings import Settings, SettingsScreen
