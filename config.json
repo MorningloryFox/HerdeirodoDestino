@@ -1,0 +1,19 @@
+{
+    "audio": {
+        "music_volume": 0.5,
+        "sound_volume": 0.7
+    },
+    "text": {
+        "speed": 0.05,
+        "auto_advance": false,
+        "skip_unread": false
+    },
+    "display": {
+        "fullscreen": true,
+        "window_size": "1024x768"
+    },
+    "auto_save": {
+        "enabled": true,
+        "interval": 300
+    }
+}
