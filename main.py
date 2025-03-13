@@ -1,3 +1,5 @@
+# Ensure you have the PIL library installed
+# You can install it using: pip install pillow
 import time
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -11,6 +13,9 @@ from audio_manager import AudioManager
 game_state = GameState()
 settings = Settings()
 audio_manager = AudioManager()
+
+# Define the variable ato1
+ato1 = "Some value"  # Replace "Some value" with the appropriate value
 
 def escrever_texto(text_widget, texto):
     """Anima a escrita do texto letra por letra"""
@@ -27,7 +32,11 @@ def iniciar_tela_inicial(root):
     tela_inicial.pack(fill="both", expand=True)
 
     # Carregar e redimensionar a imagem para ocupar toda a tela
-    img = Image.open("assets/imagens/001_tela_inicial.webp")
+    img = Image.open("assets/imagens/001_tela_inicial.webp")  # Carregar a imagem de fundo
+
+
+
+
     img = img.resize((1024, 768), Image.Resampling.LANCZOS)  # Ajuste para o tamanho da janela
     img_tk = ImageTk.PhotoImage(img)
     
@@ -38,26 +47,27 @@ def iniciar_tela_inicial(root):
     # Criando botões transparentes
     botao_config = {
         "text": "",
-        "bg": "",  # Fundo transparente
+        "bg": "white",  # Fundo branco como padrão
         "borderwidth": 0,
         "highlightthickness": 0,
         "relief": "flat",  # Remove bordas 3D
-        "activebackground": "",  # Remove cor ao passar o mouse
+        "activebackground": "white",  # Remove cor ao passar o mouse
     }
 
     try:
         # Ajuste das coordenadas para a posição correta
         btn_novo_jogo = tk.Button(tela_inicial, command=lambda: novo_jogo(root), **botao_config)
-        btn_novo_jogo.place(x=250, y=430, width=120, height=30)  # Ajustado
+        btn_novo_jogo.place(relx=0.5, rely=0.5, anchor='center', width=20)  # Centraliza o botão e define largura
 
         btn_carregar_jogo = tk.Button(tela_inicial, command=lambda: carregar_jogo(), **botao_config)
-        btn_carregar_jogo.place(x=250, y=480, width=120, height=30)  # Ajustado
+        btn_carregar_jogo.place(relx=0.5, rely=0.6, anchor='center', width=20)  # Centraliza o botão e define largura
 
         btn_configuracoes = tk.Button(tela_inicial, command=lambda: abrir_configuracoes(), **botao_config)
-        btn_configuracoes.place(x=250, y=530, width=120, height=30)  # Ajustado
+        btn_configuracoes.place(relx=0.5, rely=0.7, anchor='center', width=20)  # Centraliza o botão e define largura
 
         btn_creditos = tk.Button(tela_inicial, command=lambda: creditos(), **botao_config)
-        btn_creditos.place(x=250, y=580, width=120, height=30)  # Ajustado
+        btn_creditos.place(relx=0.5, rely=0.8, anchor='center', width=20)  # Centraliza o botão e define largura
+
     except Exception as e:
         mostrar_erro("Erro ao criar interface", str(e))
 
@@ -123,12 +133,9 @@ def main():
         root.title("Herdeiro do Destino")  # Define título da janela
         
         # Aplica configurações de display
-        if settings.get_setting("display", "fullscreen"):
-            root.attributes('-fullscreen', True)
-        else:
-            root.geometry(settings.get_setting("display", "window_size"))
-            root.resizable(False, False)
-            
+        root.geometry("800x600")  # Define tamanho da janela para 800x600
+        root.resizable(False, False)
+        
         root.configure(bg="black")  # Fundo preto inicial
         iniciar_tela_inicial(root)
         root.mainloop()
