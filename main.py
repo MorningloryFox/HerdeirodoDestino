@@ -27,46 +27,66 @@ def escrever_texto(text_widget, texto):
         time.sleep(0.05)  # Tempo entre as letras
 
 def iniciar_tela_inicial(root):
-    """Cria a tela inicial do jogo com imagem expandida e botões transparentes"""
-    tela_inicial = tk.Frame(root)
+    """Cria a tela inicial do jogo com fundo preto e nome do jogo"""
+    tela_inicial = tk.Frame(root, bg="black")
     tela_inicial.pack(fill="both", expand=True)
 
-    # Carregar e redimensionar a imagem para ocupar toda a tela
-    img = Image.open("assets/imagens/001_tela_inicial.webp")  # Carregar a imagem de fundo
+    # Adicionar o nome do jogo centralizado
+    tk.Label(
+        tela_inicial,
+        text="Herdeiro do Destino",
+        font=("Arial", 48, "bold"),
+        fg="white",
+        bg="black"
+    ).place(relx=0.5, rely=0.3, anchor="center")
 
-
-
-
-    img = img.resize((1024, 768), Image.Resampling.LANCZOS)  # Ajuste para o tamanho da janela
-    img_tk = ImageTk.PhotoImage(img)
-    
-    label_img = tk.Label(tela_inicial, image=img_tk)
-    label_img.image = img_tk
-    label_img.place(x=0, y=0, relwidth=1, relheight=1)  # Ocupa toda a tela
-
-    # Criando botões transparentes
+    # Configurações dos botões
     botao_config = {
-        "text": "",
-        "bg": "white",  # Fundo branco como padrão
-        "borderwidth": 0,
-        "highlightthickness": 0,
-        "relief": "flat",  # Remove bordas 3D
-        "activebackground": "white",  # Remove cor ao passar o mouse
+        "font": ("Arial", 16, "bold"),
+        "bg": "#444444",  # Fundo cinza médio
+        "fg": "white",    # Texto branco
+        "activebackground": "#555555",  # Cor ao passar o mouse
+        "activeforeground": "white",
+        "borderwidth": 2,
+        "relief": "ridge",
+        "width": 20,
+        "padx": 10,
+        "pady": 5
     }
 
     try:
-        # Ajuste das coordenadas para a posição correta
-        btn_novo_jogo = tk.Button(tela_inicial, command=lambda: novo_jogo(root), **botao_config)
-        btn_novo_jogo.place(relx=0.5, rely=0.5, anchor='center', width=20)  # Centraliza o botão e define largura
+        # Layout dos botões
+        btn_novo_jogo = tk.Button(
+            tela_inicial,
+            text="Novo Jogo",
+            command=lambda: novo_jogo(root),
+            **botao_config
+        )
+        btn_novo_jogo.place(relx=0.5, rely=0.45, anchor="center")
 
-        btn_carregar_jogo = tk.Button(tela_inicial, command=lambda: carregar_jogo(), **botao_config)
-        btn_carregar_jogo.place(relx=0.5, rely=0.6, anchor='center', width=20)  # Centraliza o botão e define largura
+        btn_carregar_jogo = tk.Button(
+            tela_inicial,
+            text="Carregar Jogo",
+            command=lambda: carregar_jogo(),
+            **botao_config
+        )
+        btn_carregar_jogo.place(relx=0.5, rely=0.55, anchor="center")
 
-        btn_configuracoes = tk.Button(tela_inicial, command=lambda: abrir_configuracoes(), **botao_config)
-        btn_configuracoes.place(relx=0.5, rely=0.7, anchor='center', width=20)  # Centraliza o botão e define largura
+        btn_configuracoes = tk.Button(
+            tela_inicial,
+            text="Configurações",
+            command=lambda: abrir_configuracoes(),
+            **botao_config
+        )
+        btn_configuracoes.place(relx=0.5, rely=0.65, anchor="center")
 
-        btn_creditos = tk.Button(tela_inicial, command=lambda: creditos(), **botao_config)
-        btn_creditos.place(relx=0.5, rely=0.8, anchor='center', width=20)  # Centraliza o botão e define largura
+        btn_creditos = tk.Button(
+            tela_inicial,
+            text="Créditos",
+            command=lambda: creditos(),
+            **botao_config
+        )
+        btn_creditos.place(relx=0.5, rely=0.75, anchor="center")
 
     except Exception as e:
         mostrar_erro("Erro ao criar interface", str(e))
