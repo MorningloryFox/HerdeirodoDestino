@@ -26,67 +26,100 @@ def escrever_texto(text_widget, texto):
         text_widget.update()
         time.sleep(0.05)  # Tempo entre as letras
 
+from colorama import Fore, Style, init
+import pygame
+from PIL import Image, ImageFont, ImageDraw
+import time
+
+def fade_in(widget, duration=0.5):
+    """Animação de fade-in para widgets"""
+    alpha = 0
+    while alpha < 1:
+        alpha += 0.05
+        widget.config(fg=f"#{int(255*alpha):02x}{int(255*alpha):02x}{int(255*alpha):02x}")
+        widget.update()
+        time.sleep(duration/20)
+
+def animate_title(label, duration=2):
+    """Animação de movimento sutil para o título"""
+    import math
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        offset = math.sin(time.time() * 3) * 5
+        label.place(relx=0.5, rely=0.2 + offset/1000, anchor="center")
+        label.update()
+        time.sleep(0.02)
+
 def iniciar_tela_inicial(root):
-    """Cria a tela inicial do jogo com fundo preto e nome do jogo"""
-    tela_inicial = tk.Frame(root, bg="black")
+    """Cria a tela inicial do jogo com tema wuxia e animações"""
+    init()  # Inicializa o Colorama
+    
+    # Carrega fonte temática
+    try:
+        font_path = "assets/fonts/Cinzel-Bold.ttf"
+        title_font = ImageFont.truetype(font_path, 64)
+        button_font = ImageFont.truetype(font_path, 24)
+    except:
+        # Fallback para fontes padrão
+        title_font = ("Arial", 64, "bold")
+        button_font = ("Arial", 24)
+    
+    # Configurações da janela
+    root.geometry("1024x768")
+    root.configure(bg="#0a0a0a")
+    
+    # Frame principal
+    tela_inicial = tk.Frame(root, bg="#0a0a0a")
     tela_inicial.pack(fill="both", expand=True)
 
-    # Adicionar o nome do jogo centralizado
-    tk.Label(
+    # Título do jogo com animação
+    title_label = tk.Label(
         tela_inicial,
         text="Herdeiro do Destino",
-        font=("Arial", 48, "bold"),
-        fg="white",
-        bg="black"
-    ).place(relx=0.5, rely=0.3, anchor="center")
+        font=title_font,
+        fg="#ffffff",
+        bg="#0a0a0a"
+    )
+    title_label.place(relx=0.5, rely=0.2, anchor="center")
+    fade_in(title_label)
+    animate_title(title_label)
 
-    # Configurações dos botões
-    botao_config = {
-        "font": ("Arial", 16, "bold"),
-        "bg": "#444444",  # Fundo cinza médio
-        "fg": "white",    # Texto branco
-        "activebackground": "#555555",  # Cor ao passar o mouse
-        "activeforeground": "white",
-        "borderwidth": 2,
-        "relief": "ridge",
-        "width": 20,
-        "padx": 10,
-        "pady": 5
-    }
+    # Função para criar botões minimalistas com animação
+    def criar_botao(texto, comando, posicao_y):
+        btn = tk.Label(
+            tela_inicial,
+            text=texto,
+            font=button_font,
+            fg="#ffffff",
+            bg="#0a0a0a",
+            cursor="hand2"
+        )
+        btn.place(relx=0.5, rely=posicao_y, anchor="center")
+        fade_in(btn)
+        
+        # Efeitos de hover
+        btn.bind("<Enter>", lambda e: btn.config(fg="yellow"))
+        btn.bind("<Leave>", lambda e: btn.config(fg="#ffffff"))
+        btn.bind("<Button-1>", lambda e: comando())
+        return btn
 
     try:
-        # Layout dos botões
-        btn_novo_jogo = tk.Button(
-            tela_inicial,
-            text="Novo Jogo",
-            command=lambda: novo_jogo(root),
-            **botao_config
-        )
-        btn_novo_jogo.place(relx=0.5, rely=0.45, anchor="center")
+        # Botões com design minimalista
+        criar_botao("Novo Jogo", lambda: novo_jogo(root), 0.5)
+        criar_botao("Carregar Jogo", lambda: carregar_jogo(), 0.58)
+        criar_botao("Configurações", lambda: abrir_configuracoes(), 0.66)
+        criar_botao("Créditos", lambda: creditos(), 0.74)
 
-        btn_carregar_jogo = tk.Button(
+        # Rodapé
+        footer = tk.Label(
             tela_inicial,
-            text="Carregar Jogo",
-            command=lambda: carregar_jogo(),
-            **botao_config
+            text="© 2024 Herdeiro do Destino",
+            font=button_font,
+            fg="#666666",
+            bg="#0a0a0a"
         )
-        btn_carregar_jogo.place(relx=0.5, rely=0.55, anchor="center")
-
-        btn_configuracoes = tk.Button(
-            tela_inicial,
-            text="Configurações",
-            command=lambda: abrir_configuracoes(),
-            **botao_config
-        )
-        btn_configuracoes.place(relx=0.5, rely=0.65, anchor="center")
-
-        btn_creditos = tk.Button(
-            tela_inicial,
-            text="Créditos",
-            command=lambda: creditos(),
-            **botao_config
-        )
-        btn_creditos.place(relx=0.5, rely=0.75, anchor="center")
+        footer.place(relx=0.5, rely=0.95, anchor="center")
+        fade_in(footer)
 
     except Exception as e:
         mostrar_erro("Erro ao criar interface", str(e))
@@ -153,10 +186,10 @@ def main():
         root.title("Herdeiro do Destino")  # Define título da janela
         
         # Aplica configurações de display
-        root.geometry("800x600")  # Define tamanho da janela para 800x600
+        root.geometry("1024x768")  # Define tamanho da janela para 1024x768
         root.resizable(False, False)
         
-        root.configure(bg="black")  # Fundo preto inicial
+        root.configure(bg="#0a0a0a")  # Fundo escuro inicial
         iniciar_tela_inicial(root)
         root.mainloop()
     except Exception as e:
